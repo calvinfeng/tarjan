@@ -1,0 +1,19 @@
+{
+  "name": "strongly-connected",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "compile": "tsc && node build/main.js",
+    "postinstall": "node index.js",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^2.7.2"
+  },
+  "devDependencies": {
+    "ts-node": "^6.0.3"
+  }
+}
