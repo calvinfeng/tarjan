@@ -36,7 +36,7 @@ class LaneNode {
 // Low link value of a node is the smallest node ID reachable from that node when doing DFS
 // (including itself.)
 
-// Stack Invariant: To cope with the random traversal order of the DFS, Tarjan's algorithm maintas 
+// Stack Invariant: To cope with the random traversal order of the DFS, Tarjan's algorithm maintains 
 // a set of valid nodes from which to update low-link values from. Nodes are added to the stack of
 // valid nodes as they're explored for the first time. Nodes are removed from the stack each time 
 // a complete SCC is found.
@@ -66,7 +66,7 @@ function findStronglyConnectedComponents(nodes: LaneNode[]) {
     const pseudoIDs: Map<number> = {};
     const lowLinkVals: Map<number> = {};
     
-    // Create a stack and a map to map whether a node is on stack.
+    // Create a stack and a boolean map to indicate whether a node is on stack.
     const onStack: Map<boolean> = {}; 
     const stack: LaneNode[] = [];
     
@@ -84,20 +84,20 @@ function findStronglyConnectedComponents(nodes: LaneNode[]) {
 
         // Visit all neighbors
         current.edges.forEach((edge) => {
-            // If a neighbor isn't visited, trigger DFS recursively on it.
+            // If a neighbor isn't visited, call DFS recursively on it.
             if (!visited[edge.end.uuid]) {
                 dfs(edge.end);
             }
 
-            // After the DFS call, check if neighbor is on stack.
+            // After the DFS call, check if neighbor is on stack. If yes, update low link values.
             if (onStack[edge.end.uuid]) {
                 lowLinkVals[current.uuid] = Math.min(lowLinkVals[current.uuid], 
                                                        lowLinkVals[edge.end.uuid]);
             }
         });
 
-        // Check if current node is the start of a SSC. If yes, pop everything off the stack and 
-        // update their low link values until it reaches the current node.
+        // If current node is the start of a SSC, pop everything off the stack and  update their low
+        // link values until it reaches the current node.
         if (pseudoIDs[current.uuid] == lowLinkVals[current.uuid]) {
             while (stack.length > 0) {
                 const node: LaneNode = stack.pop();
